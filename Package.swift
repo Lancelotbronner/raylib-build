@@ -18,7 +18,6 @@ let package = Package(
 				.define("_GLFW_COCOA", .when(platforms: [.macOS])),
 				.define("_GLFW_USE_MENUBAR", .when(platforms: [.macOS])),
 				.define("_GLFW_USE_RETINA", .when(platforms: [.macOS])),
-				.unsafeFlags(["-fno-objc-arc"], .when(platforms: [.macOS])),
 			]),
 	]
 )

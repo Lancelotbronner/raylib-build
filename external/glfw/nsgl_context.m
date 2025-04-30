@@ -112,13 +112,8 @@ static GLFWglproc getProcAddressNSGL(const char* procname)
 static void destroyContextNSGL(_GLFWwindow* window)
 {
     @autoreleasepool {
-
-    [window->context.nsgl.pixelFormat release];
     window->context.nsgl.pixelFormat = nil;
-
-    [window->context.nsgl.object release];
     window->context.nsgl.object = nil;
-
     } // autoreleasepool
 }
 

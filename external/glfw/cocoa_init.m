@@ -126,7 +126,6 @@ static void createMenuBar(void)
     [[appMenu addItemWithTitle:@"Services"
                        action:NULL
                 keyEquivalent:@""] setSubmenu:servicesMenu];
-    [servicesMenu release];
     [appMenu addItem:[NSMenuItem separatorItem]];
     [appMenu addItemWithTitle:[NSString stringWithFormat:@"Hide %@", appName]
                        action:@selector(hide:)
@@ -145,7 +144,6 @@ static void createMenuBar(void)
 
     NSMenuItem* windowMenuItem =
         [bar addItemWithTitle:@"" action:NULL keyEquivalent:@""];
-    [bar release];
     NSMenu* windowMenu = [[NSMenu alloc] initWithTitle:@"Window"];
     [NSApp setWindowsMenu:windowMenu];
     [windowMenuItem setSubmenu:windowMenu];
@@ -170,8 +168,7 @@ static void createMenuBar(void)
 
     // Prior to Snow Leopard, we need to use this oddly-named semi-private API
     // to get the application menu working properly.
-    SEL setAppleMenuSelector = NSSelectorFromString(@"setAppleMenu:");
-    [NSApp performSelector:setAppleMenuSelector withObject:appMenu];
+    [NSApp performSelector:@selector(setAppleMenu:) withObject:appMenu];
 }
 
 // Create key code translation tables
@@ -323,9 +320,8 @@ static GLFWbool updateUnicodeData(void)
         return GLFW_FALSE;
     }
 
-    _glfw.ns.unicodeData =
-        TISGetInputSourceProperty(_glfw.ns.inputSource,
-                                  kTISPropertyUnicodeKeyLayoutData);
+	void* tmp = TISGetInputSourceProperty(_glfw.ns.inputSource, kTISPropertyUnicodeKeyLayoutData);
+	_glfw.ns.unicodeData = (__bridge id)(tmp);
     if (!_glfw.ns.unicodeData)
     {
         _glfwInputError(GLFW_PLATFORM_ERROR,
@@ -428,9 +424,11 @@ static GLFWbool initializeTIS(void)
 
         if ([[NSBundle mainBundle] pathForResource:@"MainMenu" ofType:@"nib"])
         {
+			id tmp = _glfw.ns.nibObjects;
             [[NSBundle mainBundle] loadNibNamed:@"MainMenu"
                                           owner:NSApp
-                                topLevelObjects:&_glfw.ns.nibObjects];
+                                topLevelObjects:&tmp];
+			_glfw.ns.nibObjects = tmp;
         }
         else
             createMenuBar();
@@ -664,7 +662,6 @@ void _glfwTerminateCocoa(void)
     if (_glfw.ns.delegate)
     {
         [NSApp setDelegate:nil];
-        [_glfw.ns.delegate release];
         _glfw.ns.delegate = nil;
     }
 
@@ -676,7 +673,6 @@ void _glfwTerminateCocoa(void)
                     object:nil];
         [[NSNotificationCenter defaultCenter]
             removeObserver:_glfw.ns.helper];
-        [_glfw.ns.helper release];
         _glfw.ns.helper = nil;
     }
 
