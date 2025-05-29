@@ -19,6 +19,8 @@
 
 ****************************************************************************/
 
+#if _WIN32
+
 #ifndef DIRENT_H
 #define DIRENT_H
 
@@ -181,3 +183,5 @@ void rewinddir(DIR *dir)
     }
     else errno = EBADF;
 }
+
+#endif // _WIN32

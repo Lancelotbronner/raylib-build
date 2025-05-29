@@ -2183,7 +2183,7 @@ const char *GetApplicationDirectory(void)
 
     if (_NSGetExecutablePath(appDir, &size) == 0)
     {
-        int len = strlen(appDir);
+        int len = (int)strlen(appDir);
         for (int i = len; i >= 0; --i)
         {
             if (appDir[i] == '/')

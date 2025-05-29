@@ -233,7 +233,7 @@ static int
 sinfl_peek(struct sinfl *s, int cnt) {
   //assert(cnt >= 0 && cnt <= 56);          // @raysan5: commented to avoid crash on decompression
   //assert(cnt <= s->bitcnt);
-  return s->bitbuf & ((1ull << cnt) - 1);
+  return (int)(s->bitbuf & ((1ull << cnt) - 1));
 }
 static void
 sinfl_eat(struct sinfl *s, int cnt) {

@@ -1,0 +1,7 @@
+module raylib {
+	header "raylib.h"
+	header "raymath.h"
+	header "rcamera.h"
+	header "rgestures.h"
+	header "interop.h"
+}

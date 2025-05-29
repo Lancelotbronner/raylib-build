@@ -717,7 +717,7 @@ void *qoa_read(const char *filename, qoa_desc *qoa) {
 	}
 
 	fseek(f, 0, SEEK_END);
-	size = ftell(f);
+	size = (int)ftell(f);
 	if (size <= 0) {
 		fclose(f);
 		return NULL;
@@ -730,7 +730,7 @@ void *qoa_read(const char *filename, qoa_desc *qoa) {
 		return NULL;
 	}
 
-	bytes_read = fread(data, 1, size, f);
+	bytes_read = (int)fread(data, 1, size, f);
 	fclose(f);
 
 	sample_data = qoa_decode(data, bytes_read, qoa);

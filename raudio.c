@@ -1475,7 +1475,7 @@ Music LoadMusicStream(const char *fileName)
     {
         jar_mod_context_t *ctxMod = RL_CALLOC(1, sizeof(jar_mod_context_t));
         jar_mod_init(ctxMod);
-        int result = jar_mod_load_file(ctxMod, fileName);
+        int result = (int)jar_mod_load_file(ctxMod, fileName);
 
         if (result > 0)
         {

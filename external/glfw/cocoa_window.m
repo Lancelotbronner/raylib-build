@@ -979,8 +979,6 @@ GLFWbool _glfwCreateWindowCocoa(_GLFWwindow* window,
 
 void _glfwDestroyWindowCocoa(_GLFWwindow* window)
 {
-    @autoreleasepool {
-
     if (_glfw.ns.disabledCursorWindow == window)
         _glfw.ns.disabledCursorWindow = NULL;
 
@@ -1002,8 +1000,6 @@ void _glfwDestroyWindowCocoa(_GLFWwindow* window)
 
     // HACK: Allow Cocoa to catch up before returning
     _glfwPollEventsCocoa();
-
-    } // autoreleasepool
 }
 
 void _glfwSetWindowTitleCocoa(_GLFWwindow* window, const char* title)

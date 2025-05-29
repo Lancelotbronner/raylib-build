@@ -2208,7 +2208,7 @@ int jar_xm_create_context_from_file(jar_xm_context_t** ctx, uint32_t rate, const
     }
 
     fseek(xmf, 0, SEEK_END);
-    size = ftell(xmf);
+    size = (int)ftell(xmf);
     rewind(xmf);
     if(size == -1) {
         fclose(xmf);

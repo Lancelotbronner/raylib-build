@@ -14,6 +14,11 @@ let package = Package(
 			name: "raylib",
 			path: ".",
 			cSettings: [
+				// Configure raylib
+				.headerSearchPath("."),
+				.define("PLATFORM_DESKTOP_GLFW", .when(platforms: [.macOS, .windows, .linux, .openbsd])),
+				.define("PLATFORM_ANDROID", .when(platforms: [.android])),
+				.define("PLATFORM_WEB", .when(platforms: [.wasi])),
 				// Configure macOS
 				.define("_GLFW_COCOA", .when(platforms: [.macOS])),
 				.define("_GLFW_USE_MENUBAR", .when(platforms: [.macOS])),

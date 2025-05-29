@@ -1387,7 +1387,7 @@ void jar_mod_fillbuffer( jar_mod_context_t * modctx, short * outbuffer, unsigned
                             if( trkbuf->nb_of_state < trkbuf->nb_max_of_state )
                             {
                                 trkbuf->track_state_buf[trkbuf->nb_of_state].number_of_tracks = modctx->number_of_channels;
-                                trkbuf->track_state_buf[trkbuf->nb_of_state].buf_index = i;
+                                trkbuf->track_state_buf[trkbuf->nb_of_state].buf_index = (int)i;
                                 trkbuf->track_state_buf[trkbuf->nb_of_state].cur_pattern = modctx->song.patterntable[modctx->tablepos];
                                 trkbuf->track_state_buf[trkbuf->nb_of_state].cur_pattern_pos = modctx->patternpos / modctx->number_of_channels;
                                 trkbuf->track_state_buf[trkbuf->nb_of_state].cur_pattern_table_pos = modctx->tablepos;
@@ -1541,7 +1541,7 @@ mulong jar_mod_load_file(jar_mod_context_t * modctx, const char* filename)
             fread(modctx->modfile, fsize, 1, f);
             fclose(f);
             
-            if(!jar_mod_load(modctx, (void*)modctx->modfile, fsize)) fsize = 0;
+            if(!jar_mod_load(modctx, (void*)modctx->modfile, (int)fsize)) fsize = 0;
         } else fsize = 0;
     }
     return fsize;
@@ -1581,7 +1581,7 @@ void jar_mod_seek_start(jar_mod_context_t * ctx)
         muint lcnt = ctx->loopcount;
         
         if(jar_mod_reset(ctx)){
-            jar_mod_load(ctx, ftmp, stmp);
+            jar_mod_load(ctx, ftmp, (int)stmp);
             ctx->modfile = ftmp;
             ctx->modfilesize = stmp;
             ctx->loopcount = lcnt;

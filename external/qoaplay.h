@@ -90,7 +90,7 @@ qoaplay_desc *qoaplay_open(const char *path)
 
     // Read and decode the file header
     unsigned char header[QOA_MIN_FILESIZE];
-    int read = fread(header, QOA_MIN_FILESIZE, 1, file);
+    int read = (int)fread(header, QOA_MIN_FILESIZE, 1, file);
     if (!read) return NULL;
 
     qoa_desc qoa;
@@ -181,7 +181,7 @@ void qoaplay_close(qoaplay_desc *qoa_ctx)
 // Decode one frame from QOA data
 unsigned int qoaplay_decode_frame(qoaplay_desc *qoa_ctx)
 {
-    if (qoa_ctx->file) qoa_ctx->buffer_len = fread(qoa_ctx->buffer, 1, qoa_max_frame_size(&qoa_ctx->info), qoa_ctx->file);
+    if (qoa_ctx->file) qoa_ctx->buffer_len = (int)fread(qoa_ctx->buffer, 1, qoa_max_frame_size(&qoa_ctx->info), qoa_ctx->file);
     else
     {
         qoa_ctx->buffer_len = qoa_max_frame_size(&qoa_ctx->info);
