@@ -1,0 +1,4 @@
+module Wayland [system] {
+    link "wayland-client"
+    link "wayland-server"
+}
