@@ -13,6 +13,7 @@ let package = Package(
 		.target(
 			name: "raylib",
 			path: ".",
+			exclude: ["external/glfw/"],
 			cSettings: [
 				// Configure raylib
 				.headerSearchPath("."),
@@ -23,6 +24,8 @@ let package = Package(
 				.define("_GLFW_COCOA", .when(platforms: [.macOS])),
 				.define("_GLFW_USE_MENUBAR", .when(platforms: [.macOS])),
 				.define("_GLFW_USE_RETINA", .when(platforms: [.macOS])),
+				// Configure Linux - add X11 support
+				.define("_GLFW_X11", .when(platforms: [.linux])),
 			]),
 	]
 )

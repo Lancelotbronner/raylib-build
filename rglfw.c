@@ -65,13 +65,13 @@
 #endif
 
 // Common modules to all platforms
-//#include "external/glfw/init.c"
-//#include "external/glfw/platform.c"
-//#include "external/glfw/context.c"
-//#include "external/glfw/monitor.c"
-//#include "external/glfw/window.c"
-//#include "external/glfw/input.c"
-//#include "external/glfw/vulkan.c"
+#include "external/glfw/init.c"
+#include "external/glfw/platform.c"
+#include "external/glfw/context.c"
+#include "external/glfw/monitor.c"
+#include "external/glfw/window.c"
+#include "external/glfw/input.c"
+#include "external/glfw/vulkan.c"
 
 #if defined(_WIN32) || defined(__CYGWIN__)
     #include "external/glfw/win32_init.c"
