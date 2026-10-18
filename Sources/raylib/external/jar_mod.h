@@ -1130,7 +1130,7 @@ static bool jar_mod_load( jar_mod_context_t * modctx, void * mod_data, int mod_d
     {
         if( modctx )
         {
-            memcopy(&(modctx->song.title),modmemory,1084);
+            memcopy(&(modctx->song), modmemory, 1084);
 
             i = 0;
             modctx->number_of_channels = 0;
@@ -1148,7 +1148,7 @@ static bool jar_mod_load( jar_mod_context_t * modctx, void * mod_data, int mod_d
             {
                 // 15 Samples modules support
                 // Shift the whole datas to make it look likes a standard 4 channels mod.
-                memcopy(&(modctx->song.signature), "M.K.", 4);
+                memcopy(&(modctx->song.signature), (void *)"M.K.", 4);
                 memcopy(&(modctx->song.length), &(modctx->song.samples[15]), 130);
                 memclear(&(modctx->song.samples[15]), 0, 480);
                 modmemory += 600;
@@ -1387,7 +1387,7 @@ void jar_mod_fillbuffer( jar_mod_context_t * modctx, short * outbuffer, unsigned
                             if( trkbuf->nb_of_state < trkbuf->nb_max_of_state )
                             {
                                 trkbuf->track_state_buf[trkbuf->nb_of_state].number_of_tracks = modctx->number_of_channels;
-                                trkbuf->track_state_buf[trkbuf->nb_of_state].buf_index = (int)i;
+                                trkbuf->track_state_buf[trkbuf->nb_of_state].buf_index = i;
                                 trkbuf->track_state_buf[trkbuf->nb_of_state].cur_pattern = modctx->song.patterntable[modctx->tablepos];
                                 trkbuf->track_state_buf[trkbuf->nb_of_state].cur_pattern_pos = modctx->patternpos / modctx->number_of_channels;
                                 trkbuf->track_state_buf[trkbuf->nb_of_state].cur_pattern_table_pos = modctx->tablepos;
@@ -1535,13 +1535,13 @@ mulong jar_mod_load_file(jar_mod_context_t * modctx, const char* filename)
         
         if(fsize && fsize < 32*1024*1024)
         {
-            modctx->modfile = JARMOD_MALLOC(fsize);
+            modctx->modfile = (muchar *) JARMOD_MALLOC(fsize);
             modctx->modfilesize = fsize;
             memset(modctx->modfile, 0, fsize);
-            fread(modctx->modfile, fsize, 1, f);
+            if(fread(modctx->modfile, fsize, 1, f) != 1) fsize = 0;
             fclose(f);
-            
-            if(!jar_mod_load(modctx, (void*)modctx->modfile, (int)fsize)) fsize = 0;
+
+            if(fsize && !jar_mod_load(modctx, (void *)modctx->modfile, fsize)) fsize = 0;
         } else fsize = 0;
     }
     return fsize;
@@ -1581,7 +1581,7 @@ void jar_mod_seek_start(jar_mod_context_t * ctx)
         muint lcnt = ctx->loopcount;
         
         if(jar_mod_reset(ctx)){
-            jar_mod_load(ctx, ftmp, (int)stmp);
+            jar_mod_load(ctx, ftmp, stmp);
             ctx->modfile = ftmp;
             ctx->modfilesize = stmp;
             ctx->loopcount = lcnt;
