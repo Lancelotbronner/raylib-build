@@ -1,4 +1,4 @@
-module [system] {
+module X11 [system] {
     module Xlib {
         header "/usr/include/X11/Xlib.h"
     }
